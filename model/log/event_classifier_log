@@ -19,3 +19,28 @@
 19:15:18 -  __main__ - INFO - ------------------------------------------------
 19:15:18 -  __main__ - INFO - Overall Accuracy:0.954141656662665
 19:15:18 -  __main__ - DEBUG - Elapsed time:47.48541712760925
+10:55:40 -  __main__ - INFO - Running classifier...
+10:55:40 -  __main__ - INFO - Running query...
+10:55:51 -  __main__ - DEBUG - Size of dataset: (43791, 9)
+10:55:54 -  __main__ - INFO - Beginning Feature Union...
+11:00:46 -  __main__ - INFO - Running classifier...
+11:00:46 -  __main__ - INFO - Running query...
+11:00:55 -  __main__ - DEBUG - Size of dataset: (43791, 9)
+11:00:58 -  __main__ - INFO - Beginning Feature Union...
+11:03:21 -  __main__ - INFO - Completed Feature Union...
+11:03:21 -  __main__ - INFO - starting Gridsearch...
+11:51:57 -  __main__ - INFO - SVM finished
+11:51:57 -  __main__ - INFO - Best scoring classifier: 0.9084265814112811
+12:05:58 -  __main__ - INFO - LogisticRegression finished
+12:05:58 -  __main__ - INFO - Best scoring classifier: 0.9065344338237693
+12:14:13 -  __main__ - INFO - DecisionTreeClassifier finished
+12:14:13 -  __main__ - INFO - Best scoring classifier: 0.808925716895573
+12:16:34 -  __main__ - INFO - ------------------------------------------------
+12:16:34 -  __main__ - INFO - SVM Accuracy: 0.9161972903029381
+12:17:40 -  __main__ - INFO - ------------------------------------------------
+12:17:40 -  __main__ - INFO - LogisticRegression Accuracy: 0.9165778657329883
+12:18:44 -  __main__ - INFO - ------------------------------------------------
+12:18:44 -  __main__ - INFO - DecisionTreeClassifier Accuracy: 0.8198355914142182
+12:18:45 -  __main__ - INFO - ------------------------------------------------
+12:18:45 -  __main__ - INFO - Overall Accuracy:0.91947023900137
+12:18:45 -  __main__ - DEBUG - Elapsed time:4678.6256449222565

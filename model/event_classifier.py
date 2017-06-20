@@ -50,10 +50,10 @@ filepath = os.path.dirname(__file__)
 CLASSIFIER_DIR = os.path.join(filepath, 'classifiers/')
 
 # connect to old cluster
-HOSTNAME = '10.69.10.122'
+HOSTNAME = '52.44.76.161'
 USERNAME = 'iman'
 PASSWORD = os.environ['DATABASEPASSWORD']
-DATABASE = 'dev'
+DATABASE = 'datawarehouseprod'
 
 # A custom stoplist
 STOPLIST = set(stopwords.words('english') + ["n't", "'s", "'m", "ca"] + list(ENGLISH_STOP_WORDS))
@@ -260,7 +260,7 @@ def combine_features(feat1, feat2):
             ('cleanText', CleanTextTransformer()),
             ('vectorizer', CountVectorizer(tokenizer=tokenize_text, ngram_range=(1, 1))),
             ('tfidf', TfidfTransformer()),
-            ('svd', TruncatedSVD(n_components=100)),
+           # ('svd', TruncatedSVD(n_components=100)),
             ])),
     ])
 
