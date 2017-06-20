@@ -7,25 +7,22 @@ June 15, 2017
 # pylint: disable=invalid-name
 # pylint: disable=redefined-outer-name
 # pylint: disable=logging-format-interpolation
+# pylint: disable=no-self-use
 
 import os
-import sys
 import string
 from datetime import datetime
 import time
-import itertools
 import logging
+import argparse
 from ml_utils import pickle_classifier, load_classifier
 from nltk.corpus import stopwords
 import psycopg2
 import pandas as pd
 import numpy as np
-#import matplotlib.pyplot as plt
-#from matplotlib.cm import Blues
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_recall_fscore_support
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import Pipeline, FeatureUnion, BaseEstimator
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -45,6 +42,12 @@ logging.basicConfig(filename=logname,
                     datefmt='%H:%M:%S',
                     level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+parser = argparse.ArgumentParser(description='This is the event classifier program.')
+parser.add_argument('--retrain', help='Retrain classifier', required=True)
+parser.add_argument('--load_clf', help='Load existing classifier. \
+        ex: --load_clf=classifiers/SVM_06202017121413.pkl', required=False)
+
 
 filepath = os.path.dirname(__file__)
 CLASSIFIER_DIR = os.path.join(filepath, 'classifiers/')
@@ -260,7 +263,7 @@ def combine_features(feat1, feat2):
             ('cleanText', CleanTextTransformer()),
             ('vectorizer', CountVectorizer(tokenizer=tokenize_text, ngram_range=(1, 1))),
             ('tfidf', TfidfTransformer()),
-           # ('svd', TruncatedSVD(n_components=100)),
+            # ('svd', TruncatedSVD(n_components=100)),
             ])),
     ])
 
@@ -321,7 +324,7 @@ def grid_search(X, y):
     names = []
 
     for v in gridsearch_pipeline.items():
-        gs = GridSearchCV(v[1]['classifier'], v[1]['params'], verbose=2)
+        gs = GridSearchCV(v[1]['classifier'], v[1]['params'], verbose=2, cv=3, n_jobs=4)
         gs = gs.fit(X, y)
         names.append(v[0])
         logger.info("{} finished".format(v[0]))
@@ -400,26 +403,6 @@ def precision_recall_matrix(result, labels):
     logger.info(result)
 
 
-#def plot_confusion_matrix(cm, classes, title):
-#    """
-#    This function prints and plots the confusion matrix
-#    """
-#    plt.imshow(cm, interpolation='nearest', cmap=Blues)
-#    plt.title(title)
-#    plt.colorbar()
-#    tick_marks = np.arange(len(classes))
-#    plt.xticks(tick_marks, classes, rotation=45)
-#    plt.yticks(tick_marks, classes)
-#    thresh = cm.max() / 2.
-#    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-#        plt.text(j, i, cm[i, j],
-#                 horizontalalignment="center",
-#                 color="white" if cm[i, j] > thresh else "black")
-#
-#    plt.ylabel('True label')
-#    plt.xlabel('Predicted label')
-#
-
 def get_classifier_results(gs, clf_names, x_test, y_test, save):
     """
     Stores results of each classifier in a dictionary
@@ -433,7 +416,7 @@ def get_classifier_results(gs, clf_names, x_test, y_test, save):
 
     results = {}
 
-    if not to_save:
+    if not save:
         gs = [gs]
 
     classes = gs[0].classes_
@@ -465,27 +448,28 @@ def get_input_variables(df):
 
 if __name__ == '__main__':
 
+    args = parser.parse_args()
     start_time = time.time()
-    logger.info("Running classifier...")
+    logger.info("Running classifier script...")
 
     df = execute_query(QUERY)
 
     x_train, x_test, y_train, y_test = get_input_variables(df)
 
-
-    if len(sys.argv) == 1:
+    if args.retrain == 'T' and args.load_clf is None:
+        logger.info("Building new classifiers...")
         to_save = True
-        print("Building new classifiers...")
         gs, clf_names = grid_search(x_train, y_train)
-    else:
+
+    elif args.retrain == 'F' and args.load_clf is not None:
         to_save = False
-        clf_id = sys.argv[1]
-        print("Running {} on test set".format(clf_id))
-        gs, clf_names = load_classifier(CLASSIFIER_DIR + clf_id), [clf_id[1:5]]
+        # clean up input: remove "classifier/" and ".pkl"
+        clf_id = args.load_clf[args.load_clf.find('/')+1:-4]
+        logger.info("Running {} on test set".format(clf_id))
+        gs, clf_names = load_classifier(CLASSIFIER_DIR + clf_id), [clf_id[:5]]
 
     # get_classifier iterates over a list, so ensure params are correct type
     results, classes = get_classifier_results(gs, clf_names, x_test, y_test, to_save)
-
     y_pred = get_ensemble_prediction(results, classes)
 
     def sliceit(x):
@@ -503,11 +487,3 @@ if __name__ == '__main__':
     logger.info("Overall Accuracy:{}".format(accuracy_score(y_test, y_pred)))
 
     logger.debug("Elapsed time:{}".format(time.time() - start_time))
-
-    # Compute confusion matrix
-    #cnf_matrix = confusion_matrix(y_test, y_pred)
-    #np.set_printoptions(precision=2)
-
-    # Plot non-normalized confusion matrix
-    #plt.figure()
-    #plot_confusion_matrix(cnf_matrix, classes=classes, title='Confusion matrix')
