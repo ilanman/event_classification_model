@@ -6,7 +6,10 @@ import os
 import pandas as pd
 import _pickle as cPickle
 from sklearn.metrics import roc_curve, auc
+from sklearn.base import TransformerMixin
+from sklearn.pipeline import BaseEstimator
 import matplotlib.pyplot as plt
+
 
 def read_data_from_json(path):
     """
@@ -17,8 +20,8 @@ def read_data_from_json(path):
     """
 
     json_files = [os.path.join(path, f) for f in os.listdir(path)
-                  if os.path.isfile(os.path.join(path, f))
-                  and f.endswith('.json')]
+                  if os.path.isfile(os.path.join(path, f)) and
+                  f.endswith('.json')]
     data_frame = pd.DataFrame()
     counter = 0
 
@@ -69,8 +72,8 @@ def pickle_classifier(clf, path):
 
     # save the classifier
     print("Saving classifier: {}...".format(path))
-    with open(path + ".pkl", 'wb') as f:
-        cPickle.dump(clf, f)
+    with open(path + ".pkl", 'wb') as pkl:
+        cPickle.dump(clf, pkl)
 
 
 def load_classifier(path):
@@ -79,7 +82,37 @@ def load_classifier(path):
     """
 
     print("Loading classifier: {}...".format(path))
-    with open(path + ".pkl", 'rb') as f:
-        clf = cPickle.load(f)
+    with open(path + ".pkl", 'rb') as pkl:
+        clf = cPickle.load(pkl)
 
     return clf
+
+
+class ExtractFeature(BaseEstimator, TransformerMixin):
+    """
+    Extract the correct feature to perform pipeline operations on
+    """
+
+    def __init__(self, key):
+        """
+        Returns the key
+        """
+        self.key = key
+
+    def fit(self):
+        """
+        Scikit requires a fit function
+        """
+
+        return self
+
+    def transform(self, df):
+        """
+        Returns subset of dataframe where column == key
+        """
+        try:
+            return df[self.key]
+        except KeyError as err:
+            print(err)
+            print("doesn't exist in dataframe.")
+            return
