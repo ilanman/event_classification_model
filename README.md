@@ -1,49 +1,41 @@
 # Event Classifier
 ## Usage - Command line utility
 
-### Help: `$ python3 event_classifier -h`
+### Must run all classifiers from `classifier/` level, i.e. one directory above the actual classifier you intend to run.
 
-### 5 ways to use
+### Help: `$ python3 <classifier that you are running> -h`. For example: `$ python3 train_secondary_model -h `
+
+### 3 ways to use each model:
 
 <ol>
-<li>Retrain primary model from scratch
+<li>Train model from sratch
+<li>Score a single event based on user input from command line
+<li>Score all events within a given date range, provided by user via command line
+<ol>
 
-    $ python3 event_classifier  --level primary --retrain T
+Secondary and Tertiary models have almost identical syntax. Primary is slightly simpler since there is no existing model to use as input, unlike Secondary or Tertiary. The key thing to remember when using Secondary and Tertiary models is that the id_number you input MUST be consistent with the Primary model that you intend to use. The training and testing feature pipeline must be consistent.
 
-<li>Load a trained primary model and test it against a dataset.
+Examples:
+
+<ol>
+<li>Train primary model from scratch
+
+    $ python3 classifier/primary_train_model
+
+Assuming this model id_number is then `485` (you can see this by navigating to `pickles/classifiers/`)
+
+<li>Train a secondary model, using an already trained primary model as input (for the primary classifications).
        
-    $ python3 event_classifier --level primary --retrain F \
-                               --load_clf classifier/_primary_210.pkl
+    $ python3 classifier/secondary_train_model --id_num 485
 
-<li>Retrain a secondary model from scratch
+<li>Train a secondary model, using an already trained primary model as input (for the primary classifications).
+       
+    $ python3 classifier/tertiary_train_model --id_num 485
 
-This requires the output of a primary model to provide the primary features as input. Need to load a primary model (step 2) and then use that model to score
+<li>Using secondary classifer to classify all events from March 1, 2017 to March 10, 2017
+    
+    $ python3 classifier/secondary_multiple_events --id_num 485 --start_date 2017-03-01 --end_date 2017-03-10
 
-    $ python3 event_classifier --level secondary --retrain T \
-                               --load_clf classifier/_primary_210.pkl
+</ol>
 
-<li>Load a secondary model
-
-This model uses the output of a primary model as features to test on
-
-    $ python3 event_classifier --level secondary --retrain F \
-                               --load_clf classifier/_primary_210.pkl classifier/_secondary_210.pkl
-
-
-<li>Run a secondary model on a single event
-
-Load a primary and secondary model (step 4) and score single event
-
-    $ python3 event_classifier --level secondary --retrain F \
-                               --load_clf classifier/_primary_210.pkl classifier/_secondary_210.pkl \
-                               --event_ids 2826859
-</ol
-
-
-### In general:
-
-1.  ``` --level``` can be `primary` or `secondary`
-2. `--retrain` can be `T`(True) or `F` (False)
-3. `--load_clf` must be a classifier in the `classifier/` directory. Filename will have `_classifier_120.pkl` ending, where the `120` some randomly generated number, doesn't mean anything except that the primary and secondary classifier must have the same number.
-4. `--event_ids` must be some valid event id. Will throw an error if not. Currently only support single event classifications, but eventually will be chunks of events.
 
