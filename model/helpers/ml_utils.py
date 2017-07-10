@@ -1,20 +1,23 @@
 """
-
-This module contains helper functions for performing common ML tasks
-
+This module contains helper functions shared by the event classifier models
+primary, secondary, tertiary, both training full models and scoring individual event
 """
+
+# pylint: disable=invalid-name
 
 import os
 import logging
+from datetime import datetime, timedelta
 from collections import Counter
 import pandas as pd
 import numpy as np
 import _pickle as cPickle
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.metrics import roc_curve, auc, precision_recall_fscore_support, accuracy_score
 from sklearn.base import TransformerMixin
-from sklearn.pipeline import BaseEstimator
+from sklearn.pipeline import BaseEstimator, Pipeline
 from sklearn.model_selection import GridSearchCV
-
 import matplotlib.pyplot as plt
 
 filepath = os.path.dirname(__file__)
@@ -28,6 +31,29 @@ logging.basicConfig(filename=LOGPATH,
                     datefmt='%H:%M:%S',
                     level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+
+# parameters for gridsearch
+# using SVM currently
+CLASSIFIER_PIPELINE = dict({
+    'LogisticRegression': {
+        'classifier': Pipeline([
+            ("clf", LogisticRegression()),
+        ]),
+        'params': {
+            'clf__C': [1],
+            }
+        },
+
+    'SVM': {
+        'classifier': Pipeline([
+            ("clf", SVC(probability=True, class_weight='balanced', kernel='linear')),
+        ]),
+        'params': {
+            'clf__C': [1, 3],
+            }
+        },
+})
 
 
 def read_data_from_json(path):
@@ -83,7 +109,7 @@ def save_feature_pipeline(feature_pipeline, level, id_num):
     if level == 'primary':
         id_num = np.random.randint(1000)
 
-    logger.info("Saving {0} fitted feature pipeline id {1}...".format(level, id_num))
+    logger.info("Saving %s fitted feature pipeline id %s...", level, id_num)
     pickle_classifier(feature_pipeline, FEATURE_DIR + level + "_" + str(id_num))
 
     return id_num
@@ -110,7 +136,7 @@ def save_classifier(clf, level, id_num):
     Save trained classifier
     """
 
-    logger.info("Saving trained classifier id {}...".format(id_num))
+    logger.info("Saving trained classifier id %s...", id_num)
     pickle_classifier(clf, CLASSIFIER_DIR + level + "_" + str(id_num))
 
 
@@ -119,7 +145,7 @@ def save_dataset(X, level, id_num):
     Saves the output to a file
     """
 
-    logger.info("Saving {0} output for id {1}...".format(level, id_num))
+    logger.info("Saving %s output for id %s...", level, id_num)
     pickle_classifier(X, OUTPUT_DIR + "_" + level + "_dataset_" + str(id_num))
 
 
@@ -190,7 +216,7 @@ def get_classifier_results(clf_list, clf_names, X, y=None):
         if y is not None:
 
             logger.info("------------------------------------------------")
-            logger.info("{} Accuracy: {}".format(name, accuracy_score(y, results[name][0])))
+            logger.info("%s Accuracy: %s", name, accuracy_score(y, results[name][0]))
 
     return results, classes
 
@@ -212,8 +238,8 @@ def grid_search(X, y, gridsearch_pipeline):
         gs = GridSearchCV(v[1]['classifier'], v[1]['params'], verbose=2, cv=3, n_jobs=4)
         gs = gs.fit(X, y)
         names.append(v[0])
-        logger.info("{} finished".format(v[0]))
-        logger.info("Best scoring classifier: {}".format(gs.best_score_))
+        logger.info("%s finished", v[0])
+        logger.info("Best scoring classifier: %s", gs.best_score_)
         best_classifiers.append(gs.best_estimator_)
 
     return best_classifiers, names
@@ -250,7 +276,7 @@ class ExtractFeature(BaseEstimator, TransformerMixin):
             return
 
 
-def most_common(lst):
+def _most_common(lst):
     """
     Using Counter find most common element in list
     Possible results:
@@ -287,7 +313,7 @@ def get_ensemble_prediction(results, classes):
     all_probs_normalize = all_probs/num_clfs
 
     # the function most_common returns majority class or "no_majority"
-    majority = np.array(list(map(most_common, all_preds)))
+    majority = np.array(list(map(_most_common, all_preds)))
     no_majority_index = np.where(majority == 'no_majority')
 
     # for those where a majority doesn't exist, sum the probabilities for each
@@ -296,7 +322,7 @@ def get_ensemble_prediction(results, classes):
 
     # ensure no new probabilities were added that shouldn't be
     assert np.allclose(np.sum(no_majority_sum), len(no_majority_index[0])), (
-           "probability sum is greater than expected for no_majority")
+        "probability sum is greater than expected for no_majority")
 
     # replace the "no_majority" samples with the class that resulted in the
     # largest probability
@@ -366,3 +392,20 @@ def load_classifier_list(id_num, level):
         clf_names.append(clf_name)
 
     return clf_list, clf_names
+
+
+def create_date_range(start, end):
+    """
+    Creates a list of dates of format, ["2017-06-01", "2017-06-02", ...]
+    From start_date to end_date
+    """
+
+    start_date = datetime.strptime(start, '%Y-%m-%d')
+    end_date = datetime.strptime(end, "%Y-%m-%d")
+    numdays = (end_date - start_date).days
+    date_list = [start_date + timedelta(days=x) for x in range(0, numdays)]
+
+    # converts to "2017-06-01" format
+    formatted_date_list = [d.date().isoformat() for d in date_list]
+
+    return formatted_date_list

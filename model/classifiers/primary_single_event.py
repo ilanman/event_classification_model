@@ -36,8 +36,7 @@ logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser(description='This is the event classifier program.')
 
-parser.add_argument('--id', help='Load existing classifier. \
-        usage: --id pickles/primary_output/dataset_564.pkl', required=True)
+parser.add_argument('--id', help='Load existing classifier. Usage: --id 485.pkl', required=True)
 parser.add_argument('--body', help='Body of card.', required=True)
 parser.add_argument('--subject', help='Subject of card', required=True)
 parser.add_argument('--event_type', help='Event_type (as stored in DB)', required=True)
@@ -60,7 +59,7 @@ def score_single_event_primary(X, id_num):
     results, classes = helpers.ml_utils.get_classifier_results(
         clf_list, clf_names, x_test_features, None)
 
-    y_pred, y_score = train_primary_model.get_ensemble_prediction(results, classes)
+    y_pred, y_score = helpers.ml_utils.get_ensemble_prediction(results, classes)
 
     print("Primary classification prediction and score:", y_pred, y_score)
     return y_pred, y_score
@@ -75,10 +74,7 @@ def main():
 
     args = parser.parse_args()
 
-    clf = args.id
-    ind = clf[::-1].find('_')
-    id_num = clf[::-1][4:ind][::-1]
-
+    id_num = args.id
     body = args.body
     subject = args.subject
     event_type = args.event_type
