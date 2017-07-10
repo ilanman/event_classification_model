@@ -23,7 +23,7 @@ import numpy as np
 import context
 from helpers import ml_utils, query_events
 import primary_multiple_events
-import train_secondary_model
+import secondary_train_model
 
 filepath = os.path.dirname(__file__)
 FEATURE_DIR = os.path.join(filepath, '../pickles/feature_pipelines/')
@@ -129,15 +129,15 @@ def score_chunks_secondary(X, id_num):
     # load feature pipeline
     feature_pipeline = ml_utils.load_classifier(FEATURE_DIR + "secondary_" + str(id_num))
     # transform data using feature pipeline
-    x_test_features = train_secondary_model.get_secondary_testing_features(X, feature_pipeline)
+    x_test_features = secondary_train_model.get_secondary_testing_features(X, feature_pipeline)
 
     results, classes = ml_utils.get_classifier_results(clf_list, clf_names, x_test_features, None)
 
-    second_pred, second_score = train_secondary_model.get_ensemble_prediction(results, classes)
+    second_pred, second_score = secondary_train_model.get_ensemble_prediction(results, classes)
     X['predicted_secondary_class'] = second_pred
     X['predicted_secondary_score'] = second_score
 
-    X = train_secondary_model.add_final_secondary_classes(X)
+    X = secondary_train_model.add_final_secondary_classes(X)
 
     return X
 

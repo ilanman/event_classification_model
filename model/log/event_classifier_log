@@ -1913,3 +1913,7 @@ The error message is: ('EOF in multi-line string', (1, 8))
 18:47:17 -  train_tertiary_model - INFO - Completed transform of test set.
 18:47:17 -  train_tertiary_model - INFO - Testing set dimension: (1, 8637)
 18:47:17 -  __main__ - INFO - Completed scoring event
+19:10:53 -  pip.vcs - DEBUG - Registered VCS backend: git
+19:10:53 -  pip.vcs - DEBUG - Registered VCS backend: hg
+19:10:53 -  pip.vcs - DEBUG - Registered VCS backend: svn
+19:10:53 -  pip.vcs - DEBUG - Registered VCS backend: bzr

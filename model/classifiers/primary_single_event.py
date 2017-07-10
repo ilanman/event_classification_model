@@ -20,7 +20,7 @@ import pandas as pd
 
 import context
 import helpers.ml_utils
-import train_primary_model
+import primary_train_model
 
 filepath = os.path.dirname(__file__)
 CLASSIFIER_DIR = os.path.join(filepath, '../pickles/classifiers/')
@@ -54,7 +54,7 @@ def score_single_event_primary(X, id_num):
 
     feature_pipeline = helpers.ml_utils.load_classifier(FEATURE_DIR + "primary_" + str(id_num))
 
-    x_test_features = train_primary_model.get_primary_testing_features(X, feature_pipeline)
+    x_test_features = primary_train_model.get_primary_testing_features(X, feature_pipeline)
 
     results, classes = helpers.ml_utils.get_classifier_results(
         clf_list, clf_names, x_test_features, None)

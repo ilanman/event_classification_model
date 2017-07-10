@@ -18,7 +18,7 @@ import logging
 # helper modules
 
 import context
-from helpers.ml_utils import (pickle_classifier, precision_recall_matrix, _check_col_dimension,
+from helpers.ml_utils import (precision_recall_matrix, _check_col_dimension,
                               _check_row_dimension, get_classifier_results, grid_search,
                               get_ensemble_prediction, save_feature_pipeline, save_classifier,
                               save_dataset, _check_prediction_dimensions, CLASSIFIER_PIPELINE)

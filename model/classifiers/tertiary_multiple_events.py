@@ -23,7 +23,7 @@ import numpy as np
 import context
 from helpers import ml_utils, query_events
 import secondary_multiple_events
-import train_tertiary_model
+import tertiary_train_model
 
 filepath = os.path.dirname(__file__)
 FEATURE_DIR = os.path.join(filepath, '../pickles/feature_pipelines/')
@@ -127,15 +127,15 @@ def score_chunks_tertiary(X, id_num):
     feature_pipeline = ml_utils.load_classifier(FEATURE_DIR + "tertiary_" + str(id_num))
     # transform data using feature pipeline
 
-    x_test_features = train_tertiary_model.get_tertiary_testing_features(X, feature_pipeline)
+    x_test_features = tertiary_train_model.get_tertiary_testing_features(X, feature_pipeline)
 
     results, classes = ml_utils.get_classifier_results(clf_list, clf_names, x_test_features, None)
 
-    tertiary_pred, tertiary_score = train_tertiary_model.get_ensemble_prediction(results, classes)
+    tertiary_pred, tertiary_score = tertiary_train_model.get_ensemble_prediction(results, classes)
     X['predicted_tertiary_class'] = tertiary_pred
     X['predicted_tertiary_score'] = tertiary_score
 
-    X = train_tertiary_model.add_final_tertiary_classes(X)
+    X = tertiary_train_model.add_final_tertiary_classes(X)
 
     return X
 

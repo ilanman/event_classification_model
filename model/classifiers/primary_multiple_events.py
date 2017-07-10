@@ -22,7 +22,7 @@ import numpy as np
 # helper modules
 import context
 from helpers import ml_utils, query_events
-import train_primary_model
+import primary_train_model
 
 filepath = os.path.dirname(__file__)
 FEATURE_DIR = os.path.join(filepath, '../pickles/feature_pipelines/')
@@ -123,12 +123,12 @@ def score_chunks_primary(X, id_num):
     # load feature pipeline
     feature_pipeline = ml_utils.load_classifier(FEATURE_DIR + "primary_" + str(id_num))
     # transform data using feature pipeline
-    x_test_features = train_primary_model.get_primary_testing_features(X, feature_pipeline)
+    x_test_features = primary_train_model.get_primary_testing_features(X, feature_pipeline)
 
     results, classes = ml_utils.get_classifier_results(
         clf_list, clf_names, x_test_features, None)
 
-    y_pred, y_score = train_primary_model.get_ensemble_prediction(results, classes)
+    y_pred, y_score = primary_train_model.get_ensemble_prediction(results, classes)
 
     return y_pred, y_score
 

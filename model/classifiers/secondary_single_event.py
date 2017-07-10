@@ -22,7 +22,7 @@ import pandas as pd
 import context
 import helpers.ml_utils
 import primary_single_event
-import train_secondary_model
+import secondary_train_model
 
 filepath = os.path.dirname(__file__)
 FEATURE_DIR = os.path.join(filepath, '../pickles/feature_pipelines/')
@@ -58,7 +58,7 @@ def score_single_event_secondary(X, id_num):
 
     feature_pipeline = helpers.ml_utils.load_classifier(FEATURE_DIR + "secondary_" + str(id_num))
 
-    x_test_features = train_secondary_model.get_secondary_testing_features(X, feature_pipeline)
+    x_test_features = secondary_train_model.get_secondary_testing_features(X, feature_pipeline)
 
     results, classes = helpers.ml_utils.get_classifier_results(clf_list, clf_names, x_test_features, None)
 
