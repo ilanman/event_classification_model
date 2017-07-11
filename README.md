@@ -15,16 +15,16 @@
 
 The flow is:
 <ul>
-<li>Train a primary model. This will yield an **id_num** that is unique to this model. Navigate to **pickles/classifiers/** and **pickles/features/** to confirm that a classifier and feature pipeline has been created.
-<li>Train a secondary model using the above **id_num** as input. This will also create a secondary classifier (**pickles/classifiers/**) and feature pipeline (**pickles/features/**) with the same **id_num**.
-<li>Train a tertiary model, using the above **id_num**. Again, the classifier and feature pipeline will be stored. This tertiary model will be the final model used in training events for storage in the DB
+<li>Train a primary model. This will yield an id_num that is unique to this model. Navigate to pickles/classifiers and pickles/features to confirm that a classifier and feature pipeline has been created.
+<li>Train a secondary model using the above id_num as input. This will also create a secondary classifier pickles/classifiers and feature pipeline pickles/features/) with the same id_num.
+<li>Train a tertiary model, using the above id_num. Again, the classifier and feature pipeline will be stored. This tertiary model will be the final model used in training events for storage in the DB
 </ul>
 
 Additional uses:
 <ul>
 <li>Scoring individual events using any of the three models
 <li>Scoring events within a given date range using any of the three models. 
-<li>As above, for Secondary and Tertiary models, take care to use consistent **id_nums**.
+<li>As above, for Secondary and Tertiary models, take care to use consistent id_nums.
 </ul>
 
 Examples:
