@@ -1917,3 +1917,113 @@ The error message is: ('EOF in multi-line string', (1, 8))
 19:10:53 -  pip.vcs - DEBUG - Registered VCS backend: hg
 19:10:53 -  pip.vcs - DEBUG - Registered VCS backend: svn
 19:10:53 -  pip.vcs - DEBUG - Registered VCS backend: bzr
+11:40:43 -  pip.vcs - DEBUG - Registered VCS backend: git
+11:40:43 -  pip.vcs - DEBUG - Registered VCS backend: hg
+11:40:43 -  pip.vcs - DEBUG - Registered VCS backend: svn
+11:40:43 -  pip.vcs - DEBUG - Registered VCS backend: bzr
+11:40:48 -  __main__ - INFO - Training new primary model...
+11:40:48 -  helpers.query_events - INFO - Running query...
+11:40:50 -  helpers.query_events - DEBUG - Size of dataset: (13881, 10)
+11:40:50 -  helpers.query_events - INFO - Running query...
+11:40:52 -  helpers.query_events - DEBUG - Size of dataset: (13881, 10)
+11:40:54 -  __main__ - INFO - Size of X input: (13881, 3)
+11:40:54 -  __main__ - INFO - Beginning pipeline fit_transform to training data...
+11:41:13 -  __main__ - INFO - Completed fit_transform
+11:41:13 -  __main__ - INFO - Training set dimension: (8328, 30371)
+11:41:13 -  __main__ - INFO - Beginning transform of test set...
+11:41:25 -  __main__ - INFO - Completed transform of test set.
+11:41:25 -  __main__ - INFO - Testing set dimension: (5553, 30371)
+11:41:25 -  helpers.ml_utils - INFO - Saving primary fitted feature pipeline id 339...
+11:41:25 -  helpers.ml_utils - INFO - starting Gridsearch...
+11:41:26 -  helpers.ml_utils - INFO - LogisticRegression finished
+11:41:26 -  helpers.ml_utils - INFO - Best scoring classifier: 0.871397694524
+11:43:26 -  helpers.ml_utils - INFO - SVM finished
+11:43:26 -  helpers.ml_utils - INFO - Best scoring classifier: 0.881964457253
+11:43:26 -  helpers.ml_utils - INFO - NaiveBayes finished
+11:43:26 -  helpers.ml_utils - INFO - Best scoring classifier: 0.766810758886
+11:43:26 -  helpers.ml_utils - INFO - ------------------------------------------------
+11:43:26 -  helpers.ml_utils - INFO - LogisticRegression Accuracy: 0.885467314965
+11:43:36 -  helpers.ml_utils - INFO - ------------------------------------------------
+11:43:36 -  helpers.ml_utils - INFO - SVM Accuracy: 0.898973527823
+11:43:36 -  helpers.ml_utils - INFO - ------------------------------------------------
+11:43:36 -  helpers.ml_utils - INFO - NaiveBayes Accuracy: 0.803349540789
+11:43:36 -  helpers.ml_utils - INFO - Saving trained classifier id 339...
+11:43:36 -  __main__ - INFO - ------------------------------------------------
+11:43:36 -  __main__ - INFO - Overall Accuracy Primary: 0.891049882946
+11:43:36 -  __main__ - INFO - Storing Primary model output and saving...
+11:43:36 -  helpers.ml_utils - INFO - Saving primary output for id 339...
+11:43:36 -  __main__ - INFO - Completed training of primary model 339
+11:43:36 -  __main__ - DEBUG - Elapsed time: 168.2460789680481
+11:46:00 -  pip.vcs - DEBUG - Registered VCS backend: git
+11:46:00 -  pip.vcs - DEBUG - Registered VCS backend: hg
+11:46:00 -  pip.vcs - DEBUG - Registered VCS backend: svn
+11:46:00 -  pip.vcs - DEBUG - Registered VCS backend: bzr
+11:46:04 -  __main__ - INFO - Training new secondary model...
+11:46:04 -  __main__ - INFO - Size of X input: (5553, 5)
+11:46:04 -  __main__ - INFO - Beginning pipeline fit_transform to training data...
+11:46:11 -  __main__ - INFO - Completed fit_transform
+11:46:11 -  __main__ - INFO - Training set dimension: (3331, 15894)
+11:46:11 -  __main__ - INFO - Beginning transform of test set...
+11:46:17 -  __main__ - INFO - Completed transform of test set.
+11:46:17 -  __main__ - INFO - Testing set dimension: (2222, 15894)
+11:46:17 -  helpers.ml_utils - INFO - Saving secondary fitted feature pipeline id 339...
+11:46:17 -  helpers.ml_utils - INFO - starting Gridsearch...
+11:46:17 -  helpers.ml_utils - INFO - LogisticRegression finished
+11:46:17 -  helpers.ml_utils - INFO - Best scoring classifier: 0.772740918643
+11:46:48 -  helpers.ml_utils - INFO - SVM finished
+11:46:48 -  helpers.ml_utils - INFO - Best scoring classifier: 0.807565295707
+11:46:48 -  helpers.ml_utils - INFO - NaiveBayes finished
+11:46:48 -  helpers.ml_utils - INFO - Best scoring classifier: 0.626538577004
+11:46:48 -  helpers.ml_utils - INFO - ------------------------------------------------
+11:46:48 -  helpers.ml_utils - INFO - LogisticRegression Accuracy: 0.802430243024
+11:46:51 -  helpers.ml_utils - INFO - ------------------------------------------------
+11:46:51 -  helpers.ml_utils - INFO - SVM Accuracy: 0.819081908191
+11:46:51 -  helpers.ml_utils - INFO - ------------------------------------------------
+11:46:51 -  helpers.ml_utils - INFO - NaiveBayes Accuracy: 0.676417641764
+11:46:51 -  helpers.ml_utils - INFO - Saving trained classifier id 339...
+11:46:53 -  __main__ - INFO - ------------------------------------------------
+11:46:53 -  __main__ - INFO - Overall Accuracy Secondary: 0.80198019802
+11:46:53 -  __main__ - INFO - Storing Secondary model output and saving...
+11:46:53 -  helpers.ml_utils - INFO - Saving secondary output for id 339...
+11:46:53 -  __main__ - INFO - Completed training of secondary model 339
+11:46:53 -  __main__ - DEBUG - Elapsed time: 48.8484947681427
+14:37:57 -  pip.vcs - DEBUG - Registered VCS backend: git
+14:37:57 -  pip.vcs - DEBUG - Registered VCS backend: hg
+14:37:57 -  pip.vcs - DEBUG - Registered VCS backend: svn
+14:37:57 -  pip.vcs - DEBUG - Registered VCS backend: bzr
+14:38:01 -  __main__ - INFO - Training new tertiary model...
+14:38:01 -  __main__ - INFO - Size of X input: (2222, 7)
+14:38:01 -  __main__ - INFO - Beginning pipeline fit_transform to training data...
+14:41:45 -  pip.vcs - DEBUG - Registered VCS backend: git
+14:41:45 -  pip.vcs - DEBUG - Registered VCS backend: hg
+14:41:45 -  pip.vcs - DEBUG - Registered VCS backend: svn
+14:41:45 -  pip.vcs - DEBUG - Registered VCS backend: bzr
+14:41:50 -  __main__ - INFO - Training new tertiary model...
+14:41:50 -  __main__ - INFO - Size of X input: (2222, 7)
+14:41:50 -  __main__ - INFO - Beginning pipeline fit_transform to training data...
+14:41:53 -  __main__ - INFO - Completed fit_transform
+14:41:53 -  __main__ - INFO - Training set dimension: (1333, 8560)
+14:41:53 -  __main__ - INFO - Beginning transform of test set...
+14:41:55 -  __main__ - INFO - Completed transform of test set.
+14:41:55 -  __main__ - INFO - Testing set dimension: (889, 8560)
+14:41:55 -  helpers.ml_utils - INFO - Saving tertiary fitted feature pipeline id 339...
+14:41:55 -  helpers.ml_utils - INFO - starting Gridsearch...
+14:41:56 -  helpers.ml_utils - INFO - LogisticRegression finished
+14:41:56 -  helpers.ml_utils - INFO - Best scoring classifier: 0.579144786197
+14:42:08 -  helpers.ml_utils - INFO - SVM finished
+14:42:08 -  helpers.ml_utils - INFO - Best scoring classifier: 0.63615903976
+14:42:08 -  helpers.ml_utils - INFO - NaiveBayes finished
+14:42:08 -  helpers.ml_utils - INFO - Best scoring classifier: 0.450112528132
+14:42:08 -  helpers.ml_utils - INFO - ------------------------------------------------
+14:42:08 -  helpers.ml_utils - INFO - LogisticRegression Accuracy: 0.618672665917
+14:42:09 -  helpers.ml_utils - INFO - ------------------------------------------------
+14:42:09 -  helpers.ml_utils - INFO - SVM Accuracy: 0.658042744657
+14:42:09 -  helpers.ml_utils - INFO - ------------------------------------------------
+14:42:09 -  helpers.ml_utils - INFO - NaiveBayes Accuracy: 0.456692913386
+14:42:09 -  helpers.ml_utils - INFO - Saving trained classifier id 339...
+14:42:10 -  __main__ - INFO - ------------------------------------------------
+14:42:10 -  __main__ - INFO - Overall Accuracy Tertiary: 0.614173228346
+14:42:10 -  __main__ - INFO - Storing Tertiary model output and saving...
+14:42:10 -  helpers.ml_utils - INFO - Saving tertiary output for id 339...
+14:42:10 -  __main__ - INFO - Completed training of tertiary model 339
+14:42:10 -  __main__ - DEBUG - Elapsed time: 19.9574191570282

@@ -86,7 +86,7 @@ def get_tertiary_training_features(X, y, feature_pipeline):
     text_matrix = feature_pipeline['text_pipe'].fit_transform(X.text, y)
     event_type_matrix = feature_pipeline['event_type_pipe'].fit_transform(X.event_type, y)
     predicted_primary_matrix = feature_pipeline['predicted_primary'].fit_transform(
-        X.predicted_primary_class, y)
+        X.final_primary, y)
     predicted_secondary_matrix = feature_pipeline['predicted_secondary'].fit_transform(
         X.final_secondary, y)
 
@@ -118,7 +118,7 @@ def get_tertiary_testing_features(X, feature_pipeline):
     text_matrix = feature_pipeline['text_pipe'].transform(X.text)
     event_type_matrix = feature_pipeline['event_type_pipe'].transform(X.event_type)
     predicted_primary_matrix = feature_pipeline['predicted_primary'].transform(
-        X.predicted_primary_class)
+        X.final_primary)
     predicted_secondary_matrix = feature_pipeline['predicted_secondary'].transform(
         X.final_secondary)
 

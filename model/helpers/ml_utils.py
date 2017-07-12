@@ -36,14 +36,6 @@ logger = logging.getLogger(__name__)
 # parameters for gridsearch
 # using SVM currently
 CLASSIFIER_PIPELINE = dict({
-    'LogisticRegression': {
-        'classifier': Pipeline([
-            ("clf", LogisticRegression()),
-        ]),
-        'params': {
-            'clf__C': [1],
-            }
-        },
 
     'SVM': {
         'classifier': Pipeline([
@@ -53,6 +45,7 @@ CLASSIFIER_PIPELINE = dict({
             'clf__C': [1, 3],
             }
         },
+
 })
 
 

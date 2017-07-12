@@ -234,11 +234,11 @@ def decorate_with_primary(X, *args):
     """
 
     # uses output of primary model
-    X['true_primary_class'] = args[0]
-    X['predicted_primary_class'] = args[1]
-    X['predicted_primary_score'] = args[2]
-    X['true_secondary_class'] = args[3]
-    X['true_tertiary_class'] = args[4]
+    X.loc[:, 'true_primary_class'] = args[0]
+    X.loc[:, 'predicted_primary_class'] = args[1]
+    X.loc[:, 'predicted_primary_score'] = args[2]
+    X.loc[:, 'true_secondary_class'] = args[3]
+    X.loc[:, 'true_tertiary_class'] = args[4]
 
     return X
 
